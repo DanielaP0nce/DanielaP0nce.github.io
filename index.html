@@ -1,1 +1,908 @@
-Hi
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniela Ponce Cartagena</title>
+  <meta name="description" content="Daniela Ponce Cartagena — CS @ Brown, MD '29 at Alpert Medical School. UI/UX, web design, women's health, tech policy.">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-warm: #fdf8f3;
+      --surface: #ffffff;
+      --text: #2d2420;
+      --text-secondary: #786e66;
+      --brown: #4E3629;
+      --brown-warm: #8B6F4E;
+      --red: #C41E3A;
+      --red-light: #fef2f4;
+      --red-soft: #e8899a;
+      --cream: #faf3eb;
+      --cream-dark: #f0e4d6;
+      --sage: #7a9e7e;
+      --sage-light: #eef5ef;
+      --sky: #6b9cc4;
+      --sky-light: #eef4fa;
+      --warm-gold: #c9a24d;
+      --warm-gold-light: #fdf6e8;
+      --border: #ede5dc;
+      --shadow-sm: 0 1px 4px rgba(78,54,41,0.06);
+      --shadow: 0 4px 20px rgba(78,54,41,0.08);
+      --shadow-lg: 0 8px 40px rgba(78,54,41,0.1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* === SVG Background Pattern === */
+    .svg-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.035;
+    }
+
+    /* === Nav === */
+    nav {
+      position: fixed;
+      top: 0; width: 100%;
+      z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      color: var(--brown);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--red); }
+
+    .content { position: relative; z-index: 1; }
+    section { max-width: 740px; margin: 0 auto; padding: 0 2rem; }
+    .reveal { opacity: 0; transform: translateY(30px); }
+
+    /* === Hero === */
+    .hero-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-warm);
+    }
+    /* Decorative hero SVGs */
+    .hero-deco {
+      position: absolute;
+      pointer-events: none;
+    }
+    .hero-dna {
+      right: 5%;
+      top: 10%;
+      width: 120px;
+      opacity: 0.08;
+      animation: dna-spin 20s linear infinite;
+    }
+    @keyframes dna-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .hero-molecule {
+      left: 3%;
+      bottom: 15%;
+      width: 180px;
+      opacity: 0.06;
+      animation: float-gentle 8s ease-in-out infinite;
+    }
+    .hero-heartbeat {
+      bottom: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      opacity: 0.06;
+    }
+    @keyframes float-gentle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .hero-stethoscope {
+      right: 8%;
+      bottom: 20%;
+      width: 100px;
+      opacity: 0.06;
+      animation: float-gentle 6s ease-in-out infinite;
+      animation-delay: -3s;
+    }
+    .hero { padding-top: 5rem; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.25rem;
+    }
+    .hero-eyebrow .wave { font-size: 1.2rem; animation: wave-hand 2s ease-in-out infinite; display: inline-block; }
+    @keyframes wave-hand {
+      0%, 100% { transform: rotate(0); }
+      25% { transform: rotate(20deg); }
+      50% { transform: rotate(-10deg); }
+      75% { transform: rotate(15deg); }
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-weight: 400;
+      line-height: 1.12;
+      color: var(--brown);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--red);
+    }
+    .hero-sub {
+      font-size: 1.08rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.85;
+      margin-bottom: 2rem;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+    .hero-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .pill {
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: transform 0.2s;
+    }
+    .pill:hover { transform: translateY(-2px); }
+    .pill-cream { background: var(--cream); color: var(--brown); border: 1px solid var(--border); }
+    .pill-red { background: var(--red); color: #fff; border: 1px solid var(--red); }
+    .pill-sage { background: var(--sage-light); color: var(--sage); border: 1px solid #c8deca; }
+    .pill-sky { background: var(--sky-light); color: var(--sky); border: 1px solid #b8d4ea; }
+    .pill-gold { background: var(--warm-gold-light); color: var(--warm-gold); border: 1px solid #e8d8a8; }
+    .hero-cta {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--brown); color: #fff; }
+    .btn-primary:hover { box-shadow: var(--shadow); }
+    .btn-ghost { background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--brown-warm); color: var(--brown); }
+
+    /* === Heartbeat divider SVG === */
+    .heartbeat-divider {
+      display: block;
+      margin: 0 auto;
+      max-width: 400px;
+      height: 40px;
+      opacity: 0.15;
+    }
+
+    /* === Section heads === */
+    .section-head {
+      padding-top: 5rem;
+      margin-bottom: 2rem;
+    }
+    .section-head .icon-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.4rem;
+    }
+    .section-head .icon-label svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--red);
+      fill: none;
+      stroke-width: 2;
+    }
+    .section-head h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--brown);
+    }
+
+    /* === About === */
+    .about-body {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+    }
+    .about-body strong { color: var(--text); font-weight: 600; }
+    .about-quote {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1.25rem 1.5rem;
+      background: var(--sage-light);
+      border-radius: 14px;
+      font-size: 0.95rem;
+      color: var(--text);
+      font-weight: 500;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+    .about-quote svg {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      stroke: var(--sage);
+      fill: none;
+      stroke-width: 2;
+      margin-top: 2px;
+    }
+    .lang-row {
+      display: flex;
+      gap: 0.65rem;
+    }
+    .lang {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--brown);
+      padding: 0.4rem 0.9rem;
+      background: var(--cream);
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    /* === Timeline === */
+    .timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--red), var(--sage));
+      border-radius: 1px;
+    }
+    .t-card {
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+      position: relative;
+    }
+    .t-card::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 1.4rem;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 3px solid var(--bg);
+      z-index: 1;
+      margin-left: -1px;
+    }
+    .t-card:hover {
+      box-shadow: var(--shadow);
+      border-color: var(--red-soft);
+      transform: translateX(4px);
+    }
+    .t-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.25rem;
+    }
+    .t-role { font-weight: 700; font-size: 0.95rem; }
+    .t-date {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--red);
+      white-space: nowrap;
+      margin-left: 1rem;
+      background: var(--red-light);
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+    .t-org {
+      font-size: 0.85rem;
+      color: var(--brown);
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .t-detail { font-size: 0.8rem; color: var(--text-secondary); }
+    .t-tags {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      margin-top: 0.6rem;
+    }
+    .t-tag {
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+    }
+    .tt-sage { background: var(--sage-light); color: var(--sage); }
+    .tt-sky { background: var(--sky-light); color: var(--sky); }
+    .tt-gold { background: var(--warm-gold-light); color: var(--warm-gold); }
+    .tt-red { background: var(--red-light); color: var(--red); }
+
+    /* === Skills === */
+    .skills-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .skill-chip {
+      padding: 0.55rem 1.15rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .skill-chip:hover { transform: translateY(-2px); }
+    .skill-chip:nth-child(4n+1) { background: var(--cream); color: var(--brown); }
+    .skill-chip:nth-child(4n+2) { background: var(--sage-light); color: var(--sage); border-color: #c8deca; }
+    .skill-chip:nth-child(4n+3) { background: var(--sky-light); color: var(--sky); border-color: #b8d4ea; }
+    .skill-chip:nth-child(4n+4) { background: var(--warm-gold-light); color: var(--warm-gold); border-color: #e8d8a8; }
+
+    /* === Projects === */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .p-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      padding: 1.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.3s, border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .p-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+    .p-card:nth-child(1) { border-left: 4px solid var(--sage); }
+    .p-card:nth-child(2) { border-left: 4px solid var(--red); }
+    .p-card:nth-child(3) { border-left: 4px solid var(--sky); }
+    .p-card:nth-child(4) { border-left: 4px solid var(--warm-gold); }
+    .p-card:nth-child(5) { border-left: 4px solid var(--brown-warm); }
+    .p-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+    .p-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.12rem;
+      color: var(--text);
+    }
+    .p-lang {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .p-card:nth-child(1) .p-lang { background: var(--sage-light); color: var(--sage); }
+    .p-card:nth-child(2) .p-lang { background: var(--red-light); color: var(--red); }
+    .p-card:nth-child(3) .p-lang { background: var(--sky-light); color: var(--sky); }
+    .p-card:nth-child(4) .p-lang { background: var(--warm-gold-light); color: var(--warm-gold); }
+    .p-card:nth-child(5) .p-lang { background: var(--cream); color: var(--brown); }
+    .p-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+    .p-link {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--red);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .p-link .arrow { transition: transform 0.2s; }
+    .p-card:hover .p-link .arrow { transform: translateX(4px); }
+
+    /* === Footer === */
+    footer {
+      text-align: center;
+      padding: 5rem 2rem 2.5rem;
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      background: var(--bg-warm);
+      margin-top: 4rem;
+      position: relative;
+    }
+    .footer-top-deco {
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      opacity: 0.08;
+    }
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--brown);
+      margin-bottom: 0.75rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--red); }
+    .footer-copy {
+      font-size: 0.7rem;
+      opacity: 0.5;
+      margin-top: 1rem;
+    }
+
+    /* === Responsive === */
+    @media (max-width: 640px) {
+      nav { padding: 0.75rem 1.25rem; }
+      .nav-links { gap: 1.25rem; }
+      .nav-links a { font-size: 0.7rem; }
+      section { padding: 0 1.25rem; }
+      .hero h1 { font-size: 2.4rem; }
+      .t-top { flex-direction: column; }
+      .t-date { margin-left: 0; margin-top: 0.2rem; align-self: flex-start; }
+      .p-head { flex-direction: column; gap: 0.3rem; }
+      .hero-dna, .hero-molecule, .hero-stethoscope { display: none; }
+      .hero-heartbeat { width: 300px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--red);
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tiled SVG background: molecules + crosses + DNA fragments -->
+  <svg class="svg-bg" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="bg-pattern" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+        <!-- molecule dots -->
+        <circle cx="20" cy="20" r="3" fill="#4E3629"/>
+        <circle cx="40" cy="35" r="2" fill="#C41E3A"/>
+        <line x1="20" y1="20" x2="40" y2="35" stroke="#4E3629" stroke-width="0.8"/>
+        <!-- medical cross -->
+        <rect x="140" y="10" width="12" height="4" rx="1" fill="#C41E3A"/>
+        <rect x="144" y="6" width="4" height="12" rx="1" fill="#C41E3A"/>
+        <!-- leaf/health -->
+        <path d="M90 80 Q95 70 105 75 Q100 85 90 80Z" fill="#7a9e7e"/>
+        <!-- DNA curve fragment -->
+        <path d="M160 100 Q170 110 160 120 Q150 130 160 140" fill="none" stroke="#4E3629" stroke-width="1"/>
+        <path d="M168 100 Q158 110 168 120 Q178 130 168 140" fill="none" stroke="#C41E3A" stroke-width="0.8"/>
+        <line x1="160" y1="108" x2="168" y2="108" stroke="#8B6F4E" stroke-width="0.5"/>
+        <line x1="160" y1="120" x2="168" y2="120" stroke="#8B6F4E" stroke-width="0.5"/>
+        <line x1="160" y1="132" x2="168" y2="132" stroke="#8B6F4E" stroke-width="0.5"/>
+        <!-- small hex (molecule) -->
+        <polygon points="70,155 78,150 86,155 86,165 78,170 70,165" fill="none" stroke="#6b9cc4" stroke-width="0.8"/>
+        <!-- tiny heart -->
+        <path d="M30 130 C30 126 36 126 36 130 C36 126 42 126 42 130 C42 136 36 142 36 142 C36 142 30 136 30 130Z" fill="#C41E3A" opacity="0.5"/>
+        <!-- open book -->
+        <path d="M120 170 L120 185 Q130 180 140 185 L140 170 Q130 175 120 170Z" fill="none" stroke="#4E3629" stroke-width="0.8"/>
+        <path d="M140 170 L140 185 Q150 180 160 185 L160 170 Q150 175 140 170Z" fill="none" stroke="#4E3629" stroke-width="0.8"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#bg-pattern)"/>
+  </svg>
+
+  <div class="content">
+    <nav id="nav">
+      <a class="nav-name" href="#">DPC</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+      </div>
+    </nav>
+
+    <div class="hero-wrap">
+      <!-- Decorative SVGs -->
+      <svg class="hero-deco hero-dna" viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M30 10 Q50 30 70 50 Q50 70 30 90 Q50 110 70 130 Q50 150 30 170 Q50 190 70 200" stroke="#4E3629" stroke-width="2" fill="none"/>
+        <path d="M70 10 Q50 30 30 50 Q50 70 70 90 Q50 110 30 130 Q50 150 70 170 Q50 190 30 200" stroke="#C41E3A" stroke-width="2" fill="none"/>
+        <line x1="38" y1="30" x2="62" y2="30" stroke="#8B6F4E" stroke-width="1"/>
+        <line x1="50" y1="50" x2="50" y2="50" stroke="#8B6F4E" stroke-width="1"/>
+        <line x1="38" y1="70" x2="62" y2="70" stroke="#8B6F4E" stroke-width="1"/>
+        <line x1="50" y1="90" x2="50" y2="90" stroke="#8B6F4E" stroke-width="1"/>
+        <line x1="38" y1="110" x2="62" y2="110" stroke="#8B6F4E" stroke-width="1"/>
+        <line x1="50" y1="130" x2="50" y2="130" stroke="#8B6F4E" stroke-width="1"/>
+        <line x1="38" y1="150" x2="62" y2="150" stroke="#8B6F4E" stroke-width="1"/>
+        <line x1="50" y1="170" x2="50" y2="170" stroke="#8B6F4E" stroke-width="1"/>
+      </svg>
+
+      <svg class="hero-deco hero-molecule" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="20" stroke="#4E3629" stroke-width="2" fill="none"/>
+        <circle cx="100" cy="100" r="6" fill="#C41E3A" opacity="0.3"/>
+        <circle cx="50" cy="50" r="10" stroke="#7a9e7e" stroke-width="1.5" fill="none"/>
+        <line x1="86" y1="86" x2="57" y2="57" stroke="#4E3629" stroke-width="1.2"/>
+        <circle cx="160" cy="60" r="8" stroke="#6b9cc4" stroke-width="1.5" fill="none"/>
+        <line x1="118" y1="90" x2="153" y2="64" stroke="#4E3629" stroke-width="1.2"/>
+        <circle cx="60" cy="160" r="12" stroke="#c9a24d" stroke-width="1.5" fill="none"/>
+        <line x1="88" y1="116" x2="68" y2="150" stroke="#4E3629" stroke-width="1.2"/>
+        <circle cx="160" cy="150" r="9" stroke="#C41E3A" stroke-width="1.5" fill="none"/>
+        <line x1="116" y1="112" x2="152" y2="144" stroke="#4E3629" stroke-width="1.2"/>
+      </svg>
+
+      <svg class="hero-deco hero-stethoscope" viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 10 L20 40 Q20 60 35 65 Q50 70 50 50 L50 10" stroke="#4E3629" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <circle cx="20" cy="8" r="4" fill="#C41E3A"/>
+        <circle cx="50" cy="8" r="4" fill="#C41E3A"/>
+        <circle cx="35" cy="72" r="8" stroke="#4E3629" stroke-width="2" fill="none"/>
+        <circle cx="35" cy="72" r="3" fill="#7a9e7e" opacity="0.5"/>
+      </svg>
+
+      <!-- Heartbeat line -->
+      <svg class="hero-deco hero-heartbeat" viewBox="0 0 500 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0,30 80,30 100,30 120,10 135,50 150,20 165,35 180,30 500,30" stroke="#C41E3A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+      <section class="hero">
+        <div class="hero-eyebrow reveal"><span class="wave">👋</span> Hey there!</div>
+        <h1 class="reveal">Daniela <em>Ponce</em><br>Cartagena</h1>
+        <p class="hero-sub reveal">
+          CS grad from <strong>Brown University</strong>, incoming MD candidate at the <strong>Warren Alpert Medical School</strong>. I build at the intersection of technology, design, and healthcare.
+        </p>
+        <div class="hero-pills reveal">
+          <span class="pill pill-cream">UI/UX Design</span>
+          <span class="pill pill-red">Women's Health</span>
+          <span class="pill pill-sage">Tech Policy</span>
+          <span class="pill pill-sky">Web Dev</span>
+          <span class="pill pill-gold">PLME</span>
+        </div>
+        <div class="hero-cta reveal">
+          <a class="btn btn-primary" href="https://www.linkedin.com/in/daniela-ponce-cartagena-7111b5293/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="btn btn-ghost" href="https://github.com/DanielaP0nce" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Heartbeat section divider -->
+    <svg class="heartbeat-divider" viewBox="0 0 400 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top:2rem;">
+      <polyline points="0,20 100,20 130,20 145,5 160,35 175,12 185,25 195,20 400,20" stroke="#C41E3A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <section id="about">
+      <div class="section-head reveal">
+        <div class="icon-label">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+          About
+        </div>
+        <h2>A little about me</h2>
+      </div>
+      <p class="about-body reveal">
+        I studied <strong>Computer Science</strong> at Brown with a focus on <strong>UI/UX design</strong> and human-computer interaction. As part of Brown's <strong>Program in Liberal Medical Education (PLME)</strong>, I'm heading to the Warren Alpert Medical School, class of 2029!
+      </p>
+      <div class="about-quote reveal">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>I'm passionate about women's health, tech policy, and making complex systems feel more human through good design.</span>
+      </div>
+      <div class="lang-row reveal">
+        <span class="lang">English — Native</span>
+        <span class="lang">Spanish — Native</span>
+      </div>
+    </section>
+
+    <svg class="heartbeat-divider" viewBox="0 0 400 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="0,20 120,20 145,20 158,6 170,34 182,14 190,24 198,20 400,20" stroke="#7a9e7e" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <section id="experience">
+      <div class="section-head reveal">
+        <div class="icon-label">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+          Experience
+        </div>
+        <h2>Where I've worked</h2>
+      </div>
+      <div class="timeline">
+        <div class="t-card reveal">
+          <div class="t-top">
+            <div class="t-role">Data Science Intern</div>
+            <div class="t-date">Jun — Aug 2024</div>
+          </div>
+          <div class="t-org">Brown Center for Computation & Visualization</div>
+          <div class="t-detail">Providence, RI · Hybrid</div>
+          <div class="t-tags">
+            <span class="t-tag tt-sage">Data Science</span>
+            <span class="t-tag tt-sky">Python</span>
+            <span class="t-tag tt-red">Research</span>
+          </div>
+        </div>
+        <div class="t-card reveal">
+          <div class="t-top">
+            <div class="t-role">UI/UX Intern</div>
+            <div class="t-date">Jan — Apr 2024</div>
+          </div>
+          <div class="t-org">Singapore Education Network</div>
+          <div class="t-detail">Singapore · On-site</div>
+          <div class="t-tags">
+            <span class="t-tag tt-gold">UI/UX</span>
+            <span class="t-tag tt-sage">Design</span>
+            <span class="t-tag tt-red">Figma</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <svg class="heartbeat-divider" viewBox="0 0 400 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="0,20 110,20 140,20 155,8 168,32 178,15 186,22 194,20 400,20" stroke="#6b9cc4" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <section id="education">
+      <div class="section-head reveal">
+        <div class="icon-label">
+          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+          Education
+        </div>
+        <h2>Where I've learned</h2>
+      </div>
+      <div class="timeline">
+        <div class="t-card reveal">
+          <div class="t-top">
+            <div class="t-role">Doctor of Medicine (MD)</div>
+            <div class="t-date">2025 — 2029</div>
+          </div>
+          <div class="t-org">Warren Alpert Medical School of Brown University</div>
+          <div class="t-detail">Program in Liberal Medical Education (PLME)</div>
+        </div>
+        <div class="t-card reveal">
+          <div class="t-top">
+            <div class="t-role">Bachelor of Arts — Computer Science</div>
+            <div class="t-date">2021 — 2025</div>
+          </div>
+          <div class="t-org">Brown University</div>
+          <div class="t-detail">Focus on UI/UX design and human-computer interaction</div>
+        </div>
+      </div>
+    </section>
+
+    <svg class="heartbeat-divider" viewBox="0 0 400 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="0,20 90,20 125,20 140,6 155,34 168,12 178,26 188,20 400,20" stroke="#c9a24d" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <section id="skills">
+      <div class="section-head reveal">
+        <div class="icon-label">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Skills
+        </div>
+        <h2>What I work with</h2>
+      </div>
+      <div class="skills-wrap reveal">
+        <span class="skill-chip">Python</span>
+        <span class="skill-chip">JavaScript</span>
+        <span class="skill-chip">React</span>
+        <span class="skill-chip">Java</span>
+        <span class="skill-chip">HTML / CSS</span>
+        <span class="skill-chip">SQL</span>
+        <span class="skill-chip">UI/UX Design</span>
+        <span class="skill-chip">Figma</span>
+        <span class="skill-chip">Data Science</span>
+        <span class="skill-chip">Web Design</span>
+      </div>
+    </section>
+
+    <svg class="heartbeat-divider" viewBox="0 0 400 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="0,20 100,20 135,20 148,4 162,36 175,10 185,28 195,20 400,20" stroke="#C41E3A" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <section id="projects">
+      <div class="section-head reveal">
+        <div class="icon-label">
+          <svg viewBox="0 0 24 24"><path d="M16 18l6-6-6-6"/><path d="M8 6l-6 6 6 6"/></svg>
+          Projects
+        </div>
+        <h2>Things I've built</h2>
+      </div>
+      <div class="projects-list">
+        <a class="p-card reveal" href="https://github.com/DanielaP0nce/term-project-hang-bahar-daniela-brandon" target="_blank" rel="noopener noreferrer">
+          <div class="p-head">
+            <div class="p-title">Brown Bed n' Breakfast</div>
+            <span class="p-lang">React + Java</span>
+          </div>
+          <p class="p-desc">A web app for Brown students to review dining halls and dorms. Smart search with typo tolerance, a dorm matching algorithm based on lifestyle preferences, and accessibility-first design.</p>
+          <span class="p-link">View on GitHub <span class="arrow">&rarr;</span></span>
+        </a>
+
+        <a class="p-card reveal" href="https://danielap0nce.github.io/nordic-buffet-calculator/" target="_blank" rel="noopener noreferrer">
+          <div class="p-head">
+            <div class="p-title">The Nordic Buffet Calculator</div>
+            <span class="p-lang">HTML + JS</span>
+          </div>
+          <p class="p-desc">Interactive calculator for The Nordic's $145 all-you-can-enjoy buffet. 46 real menu items with sourced pricing from local RI restaurants and markets, live scoreboard, and share feature.</p>
+          <span class="p-link">Try it live <span class="arrow">&rarr;</span></span>
+        </a>
+
+        <a class="p-card reveal" href="https://github.com/DanielaP0nce/bioinformatics-analysis-suite" target="_blank" rel="noopener noreferrer">
+          <div class="p-head">
+            <div class="p-title">Bioinformatics Analysis Suite</div>
+            <span class="p-lang">Python</span>
+          </div>
+          <p class="p-desc">A bioinformatics toolkit exploring the intersection of computation and biology — bridging my CS background with my path into medicine.</p>
+          <span class="p-link">View on GitHub <span class="arrow">&rarr;</span></span>
+        </a>
+
+        <a class="p-card reveal" href="https://github.com/DanielaP0nce/cs1300-eyetracking" target="_blank" rel="noopener noreferrer">
+          <div class="p-head">
+            <div class="p-title">Eye Tracking Visualizer</div>
+            <span class="p-lang">JavaScript</span>
+          </div>
+          <p class="p-desc">Generates heatmaps and animated replays from eye tracking data for Brown's CS 1300 (UI/UX). Visualizes gaze patterns to inform interface design decisions.</p>
+          <span class="p-link">View on GitHub <span class="arrow">&rarr;</span></span>
+        </a>
+
+        <a class="p-card reveal" href="https://github.com/DanielaP0nce/ccv-website-content" target="_blank" rel="noopener noreferrer">
+          <div class="p-head">
+            <div class="p-title">CCV Website Content</div>
+            <span class="p-lang">Markdown</span>
+          </div>
+          <p class="p-desc">Content contributions for Brown's Center for Computation and Visualization website during my data science internship.</p>
+          <span class="p-link">View on GitHub <span class="arrow">&rarr;</span></span>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <svg class="footer-top-deco" viewBox="0 0 300 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0,15 60,15 90,15 105,3 120,27 135,8 145,20 155,15 300,15" stroke="#4E3629" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="footer-name">Daniela Ponce Cartagena</div>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/daniela-ponce-cartagena-7111b5293/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/DanielaP0nce" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      Made with care in Providence, RI
+      <div class="footer-copy" id="copyright"></div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('copyright').textContent =
+      '\u00A9 ' + new Date().getFullYear() + ' Daniela Ponce Cartagena';
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () =>
+      nav.classList.toggle('scrolled', window.scrollY > 30)
+    );
+
+    /* === GSAP === */
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero
+    gsap.to('.hero .reveal', {
+      opacity: 1, y: 0,
+      duration: 0.8, stagger: 0.12,
+      ease: 'power2.out', delay: 0.3
+    });
+
+    // Sections
+    document.querySelectorAll('#about .reveal, #experience .reveal, #education .reveal, #skills .reveal, #projects .reveal').forEach(el => {
+      gsap.to(el, {
+        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
+        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out'
+      });
+    });
+
+    // Skills stagger
+    gsap.to('.skill-chip', {
+      scrollTrigger: { trigger: '.skills-wrap', start: 'top 85%' },
+      opacity: 1, y: 0, duration: 0.4, stagger: 0.04, ease: 'power2.out'
+    });
+
+    // Project cards
+    gsap.to('.p-card', {
+      scrollTrigger: { trigger: '.projects-list', start: 'top 85%' },
+      opacity: 1, y: 0, duration: 0.55, stagger: 0.1, ease: 'power2.out'
+    });
+
+    // Heartbeat line draw-in
+    document.querySelectorAll('.heartbeat-divider polyline').forEach(line => {
+      const len = line.getTotalLength();
+      line.style.strokeDasharray = len;
+      line.style.strokeDashoffset = len;
+      gsap.to(line, {
+        scrollTrigger: { trigger: line, start: 'top 90%' },
+        strokeDashoffset: 0, duration: 1.2, ease: 'power2.out'
+      });
+    });
+  </script>
+</body>
+</html>
